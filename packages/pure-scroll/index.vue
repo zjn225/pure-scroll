@@ -1,6 +1,6 @@
 <template>
   <div class="pure-scroll-wrap">
-     hello, this is pure-scroll
+     hello, this is pure-scroll, 2022-4-15 16:36:46
   </div>
 </template>
 
