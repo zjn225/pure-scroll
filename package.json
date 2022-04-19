@@ -11,7 +11,7 @@
     "lint": "eslint ./packages --ext .vue,.js,.ts",
     "lint-fix": "eslint --fix ./packages --ext .vue,.js,.ts",
     "clean": "rimraf ./lib",
-    "example:dev": "cd example && yarn install && yarn serve",
+    "dev": "cd example && yarn serve",
     "example:build": "cd example && yarn install && yarn build"
   },
   "keywords": [
@@ -24,6 +24,7 @@
   "author": "zjn225",
   "license": "MIT",
   "dependencies": {
+    "postcss-plugin-px2rem": "^0.8.1",
     "vue": "^2.6.14"
   },
   "devDependencies": {

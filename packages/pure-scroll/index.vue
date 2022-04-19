@@ -1,10 +1,13 @@
 <template>
   <div class="pure-scroll-wrap">
-     hello, this is pure-scroll, 2022-4-15 16:36:46
+    <div class="content">
+      hello, this is pure-scroll, 2022-4-15 16:36:46
+    </div>
   </div>
 </template>
 
 <script>
+import './index.scss'
 
 export default {
   name: 'scroll',
