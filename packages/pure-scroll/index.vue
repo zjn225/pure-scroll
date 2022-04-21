@@ -1,6 +1,15 @@
 <template>
   <div class="pure-scroll-wrap">
-    <div class="wrapper" ref="wrapper" @touchstart.prevent="onStart" @touchmove.prevent="onMove" @touchend.prevent="onEnd" @touchcancel.prevent="onEnd" @mousedown.prevent="onStart" @mousemove.prevent="onMove" @mouseup.prevent="onEnd" @mousecancel.prevent="onEnd" @mouseleave.prevent="onEnd" @transitionend="onTransitionEnd">
+    <!-- 适用于pc端可能会有鼠标滚轮的场景，无惯性 -->
+    <div class="normal-scroll" v-if='normalScroll'>
+      <ul class="list" ref="scroller" :style="scrollerStyle">
+        <li class="list-item" v-for="(item, index) in list" :key='index'>
+          {{item.name}}
+        </li>
+      </ul>
+    </div>
+    <!-- 适用于移动端这种只能拖拽的场景，支持惯性 -->
+    <div v-else class="wrapper" ref="wrapper" @touchstart.prevent="onStart" @touchmove.prevent="onMove" @touchend.prevent="onEnd" @touchcancel.prevent="onEnd" @mousedown.prevent="onStart" @mousemove.prevent="onMove" @mouseup.prevent="onEnd" @mousecancel.prevent="onEnd" @mouseleave.prevent="onEnd" @transitionend="onTransitionEnd">
       <ul class="list" ref="scroller" :style="scrollerStyle">
         <li class="list-item" v-for="(item, index) in list" :key='index'>
           {{item.name}}
@@ -15,7 +24,15 @@ import './index.scss'
 
 export default {
   name: 'scroll',
-  props: ["list"],
+  props: {
+    list: {
+      type: Array
+    },
+    normalScroll: {
+      type: Boolean,
+      default: true
+    }
+  },
   computed: {
     scrollerStyle() {
       return {
@@ -45,6 +62,7 @@ export default {
     };
   },
   mounted() {
+    if (this.normalScroll) return
     this.$nextTick(() => {
       this.wrapper = this.$refs.wrapper;
       this.scroller = this.$refs.scroller;
