@@ -22,7 +22,7 @@ export default {
      */
     probeType: {
       type: Number,
-      default: 1
+      default: 3
     },
     /**
      * 点击列表是否派发click事件
@@ -38,10 +38,6 @@ export default {
       type: Boolean,
       default: false
     },
-
-    /**
-     * 列表的数据
-     */
     data: {
       type: Array,
       default: null
@@ -53,14 +49,22 @@ export default {
       type: Boolean,
       default: false
     },
-
     /**
      * 当数据更新后，刷新scroll的延时。
      */
     refreshDelay: {
       type: Number,
       default: 20
-    }
+    },
+    threshold: {
+      type: Number,
+      default: 0
+    },
+    // 是否自动计算滚动区域的高度，如果滚动区域是在最底部开始的，就开启
+    autoHeight: {
+      type: Boolean,
+      default: false
+    },
   },
   watch: {
     // 监听数据的变化，延时refreshDelay时间后调用refresh方法重新计算，保证滚动效果正常
@@ -70,8 +74,15 @@ export default {
       }, this.refreshDelay)
     }
   },
+  computed: {
+    pullupConfig() {
+      return {
+        threshold: this.threshold
+      }
+    }
+  },
   mounted() {
-    this.fitFoldingScreen()
+    this.autoHeight && this.fitFoldingScreen()
     // 保证在DOM渲染完毕后初始化better-scroll
     this.$nextTick(() => {
       this._initScroll()
@@ -79,10 +90,10 @@ export default {
   },
   methods: {
     // 下一页数据回来后触发
-    pullupEnd() {
+    pullupEnd(config) {
       this.scroll.refresh();
       this.scroll.finishPullUp();
-      this.scroll.openPullUp();
+      this.scroll.openPullUp(this.pullupConfig);
     },
     _initScroll() {
       if (!this.$refs.wrapper) {
@@ -94,9 +105,7 @@ export default {
         click: this.click,
         scrollX: this.scrollX,
         mouseWheel: true,
-        pullUpLoad: {
-          threshold: 10,
-        },
+        pullUpLoad: this.pullupConfig,
       })
 
       // 是否派发滚动到底部事件，用于上拉加载

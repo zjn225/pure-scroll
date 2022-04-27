@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="wrap">
-      <pure-scroll ref='pureScroll' class="pure" :data="list" :pullup='isPullup' @scrollToEnd='scrollToEnd'>
+      <pure-scroll ref='pureScroll' class="pure" :threshold='500' :autoHeight='true' :data="list" :pullup='isPullup' @scrollToEnd='scrollToEnd'>
         <div class="scroll-content">
           <div class="scroll-item-wrap">
             <div class="scroll-item" v-for='(item,index) in list' :key='index'>
