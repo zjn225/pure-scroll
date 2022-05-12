@@ -128,14 +128,10 @@ export default {
   overflow: hidden;
 }
 
-.list {
-  background-color: lightblue;
-}
-
-.list-item {
+.scroll-item {
   height: 30px;
   line-height: 30px;
-  width: 100%;
+  width: 100vw;
   text-align: center;
   border-bottom: 1px solid green;
 }
